@@ -41,9 +41,27 @@ pip install -r requirements.txt
 
 ## Usage
 
-1. Uncomment ```populate_db()``` function in ```main.py```.
-2. Start the lottery system:
+1. Start the lottery system and populate the database by running ```main.py``` with ```-p```.
+```
+python main.py -p
+```
+2. Run the script without the ```-p``` parameter if you don't need to populate the database.
 ```
 python main.py
 ```
 3. The system will wait until midnight (00:00) to close the current lottery and select a random winner.
+4. Consult the database file (```lottery.db```) with a .db analysing tool such as DB Browser.
+
+## Structure
+
+This system is using a tailored backend system in Python with an ORM mapper (SQLAlchemy) that uses a database schema defined in ```models.py```.
+
+The repository contains the following files and directories:
+
+-   `main.py`: runs the main program and populates the database.
+-   `__init__.py`: initializes the SQLAlchemy Session to interact with the database.
+-   `functions.py`: all the necessary functions to interact with the database and the system.
+-   `models.py`: ORM-like database schema.
+-   `README.md`: this file.
+
+Feel free to contact me for further requests and to adapt this README file to suit your project's specific needs.
