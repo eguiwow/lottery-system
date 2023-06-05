@@ -41,8 +41,11 @@ pip install -r requirements.txt
 
 ## Usage
 
-1. Uncomment ```populate_db()``` function in ```main.py```.
-2. Start the lottery system:
+1. Start the lottery system and populate the database by running ```main.py``` with ```-p```.
+```
+python main.py -p
+```
+2. Run the script without the ```-p``` parameter if you don't need to populate the database.
 ```
 python main.py
 ```
