@@ -8,6 +8,7 @@ This is a simple lottery system written in Python that allows users to participa
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Structure](#structure)
 
 ## Features
 
