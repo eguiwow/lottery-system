@@ -1,0 +1,5 @@
+greenlet==2.0.2
+peewee==3.16.2
+schedule==1.2.0
+SQLAlchemy==2.0.15
+typing_extensions==4.6.3

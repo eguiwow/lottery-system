@@ -4,7 +4,7 @@ from sqlalchemy import DateTime, func
 from sqlalchemy.exc import IntegrityError
 from models import User, Lottery, Ballot
 import random as rand
-from schedule import every, repeat, run_pending
+from schedule import every, repeat
 import time
 from __init__ import session
 
@@ -147,7 +147,7 @@ def populate_db(session, origin_date: DateTime):
         for i in range(1, 10):
             register_user(session, name+str(i), "pass"+str(i))
     # Populate the db with a new lottery each day since origin_date
-    for i in range(days_passed):
+    for i in range(days_passed + 1):
         new_date = origin_date + timedelta(i)
         create_lottery(session, "Loto" + str(new_date)[0:10], new_date)
     

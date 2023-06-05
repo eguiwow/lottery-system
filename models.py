@@ -14,7 +14,7 @@ class Lottery(Base):
     __tablename__ = 'lotteries'
     id = Column(Integer, primary_key=True)
     name = Column(String)
-    closing_date = Column(DateTime)
+    closing_date = Column(DateTime, unique=True)
     winning_ballot_id = Column(Integer, ForeignKey('ballots.id'), nullable=True)
 
 class Ballot(Base):
