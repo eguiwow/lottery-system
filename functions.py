@@ -106,8 +106,8 @@ def close_lottery_and_select_winner(session, closing_time: str):
         # schedule_next_run(session, closing_time)
 
 # SCHEDULING for midnight closing of lottery 
-#@repeat(every().day.at("00:00"))
-@repeat(every(5).seconds)
+@repeat(every().day.at("00:00"))
+#@repeat(every(5).seconds)
 def do_at_midnight():
     """Schedule the next run of the function at midnight"""
     next_run_time = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
