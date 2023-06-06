@@ -99,7 +99,7 @@ def interact_user(session, terminate_flag):
     while not terminate_flag.is_set():
         print("\nOptions:")
         print("1 - Register in the system")
-        print("2 - Login into the system")        
+        print("2 - Log into the system")        
         print("3 - Submit a ballot for a particular date")
         print("4 - Submit a ballot for the last open lottery")        
         print("5 - Check the ballot of a particular date")
