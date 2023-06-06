@@ -20,7 +20,7 @@ def register_user(session, username: str, password: str):
         # Add the new user to the session and commit the changes
         session.add(user)
         session.commit()
-        print("New user created successfully!")
+        logging.debug("New user created successfully!")
     except IntegrityError as e:
         session.rollback()
         logging.warning(f"{e.orig}: A user with the same name already exists!")
@@ -197,10 +197,12 @@ def populate_db(session, origin_date: DateTime):
     days_passed = (current_date - origin_date.date()).days
 
     # Populate the db with users from list and passwords
+    logging.info("Populating database... users")
     for name in names:
         for i in range(1, 10):
             register_user(session, name+str(i), "pass"+str(i))
     # Populate the db with a new lottery each day since origin_date
+    logging.info("Populating database... lotteries")
     for i in range(days_passed + 1):
         new_date = origin_date + timedelta(i)
         create_lottery(session, "Loto" + str(new_date)[0:10], new_date)
@@ -208,9 +210,13 @@ def populate_db(session, origin_date: DateTime):
     num_lotteries = session.query(Lottery.id).count()
     num_users = session.query(User.id).count()    
     # Submit ballots from random users to random lotteries
+    logging.info("Populating database... ballots")
     for i in range(1000):
         submit_past_ballot(session, rand.randint(1, num_users), rand.randint(1, num_lotteries))
-
+        # Print the loader
+        loader = f"\rProgress: [{i+1}/{1000}] {'=' * (int(i/10)+1)}{' ' * (100-int(i/10)-1)}"
+        print(loader, end='', flush=True)
+    print("\nDatabase successfullly populated")        
     close_open_lotteries(session)
 
 def test_db():
