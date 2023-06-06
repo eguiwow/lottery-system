@@ -108,4 +108,11 @@ The repository contains the following files and directories:
 -   `console_interaction.py`: provides the console interaction logic.
 -   `README.md`: this file.
 
+## TODO Improve
+- Rest API framework for operating the system
+- FrontEnd 
+- Unit tests
+- Richer db entities (price, lottery numbers, etc.)
+
+
 Feel free to contact me for further requests and to adapt this README file to suit your project's specific needs.
