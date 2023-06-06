@@ -6,6 +6,7 @@ registered = False  # Flag to track registration status
 registered_username = "" 
 
 def register(session):
+    """Register option for console interaction"""
     clear_screen()
     print("Registration form")
     global registered
@@ -25,6 +26,7 @@ def register(session):
         print("Invalid username or password.")
 
 def login(session):
+    """Login option for console interaction"""
     clear_screen()
     print("Login form")
     global registered
@@ -44,6 +46,7 @@ def login(session):
         print("Invalid username or password.")
 
 def submit_ballot(session):
+    """Submit ballot option for console interaction"""
     clear_screen()    
     if not registered:
         print("You must be registered to submit a ballot.")
@@ -62,6 +65,7 @@ def submit_ballot(session):
         print("Invalid date or time format. Please try again.")
 
 def submit_ballot_open(session):
+    """Submit ballot to open lottery option for console interaction"""
     clear_screen()
     if not registered:
         print("You must be registered to submit a ballot.")
@@ -75,6 +79,7 @@ def submit_ballot_open(session):
 
 
 def check_ballot(session):
+    """Check ballot option for console interaction"""
     clear_screen()
     date_str = input("Enter the date to check the ballot (YYYY-MM-DD): ")
     time_str = input("Enter the time to check the ballot (HH:MM): ")
@@ -89,6 +94,7 @@ def check_ballot(session):
         print("Invalid date or time format. Please try again.")
 
 def clear_screen():
+    """Clear the terminal"""
     # Check the operating system and execute the appropriate command
     if os.name == "nt":
         os.system("cls")  # For Windows
@@ -96,6 +102,7 @@ def clear_screen():
         os.system("clear")  # For Linux and macOS
 
 def interact_user(session, terminate_flag):
+    """Interaction logic for user's terminal"""
     while not terminate_flag.is_set():
         print("\nOptions:")
         print("1 - Register in the system")
