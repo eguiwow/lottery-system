@@ -64,14 +64,14 @@ def submit_ballot(session):
     except ValueError:
         print("Invalid date or time format. Please try again.")
 
-def submit_ballot_open(session):
+def submit_ballot_open(session, minute):
     """Submit ballot to open lottery option for console interaction"""
     clear_screen()
     if not registered:
         print("You must be registered to submit a ballot.")
         return
     try:
-        lottery_date = get_last_open_lottery(session)
+        lottery_date = get_last_open_lottery(session, minute)
         print(f"Submitting ballot for {lottery_date}")
         submit_ballot_date(session, registered_username, lottery_date)
     except ValueError:
@@ -101,7 +101,7 @@ def clear_screen():
     else:
         os.system("clear")  # For Linux and macOS
 
-def interact_user(session, terminate_flag):
+def interact_user(session, terminate_flag, minute):
     """Interaction logic for user's terminal"""
     while not terminate_flag.is_set():
         print("\nOptions:")
@@ -121,7 +121,7 @@ def interact_user(session, terminate_flag):
         elif choice == "3":
             submit_ballot(session)
         elif choice == "4":
-            submit_ballot_open(session)
+            submit_ballot_open(session, minute)
         elif choice == "5":
             check_ballot(session)
         elif choice == "q":

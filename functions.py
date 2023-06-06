@@ -147,15 +147,28 @@ def close_lottery_and_select_winner(session, closing_time: DateTime, minute: boo
             # Check the winner from yesterday
             check_winning_ballot_by_date(session, yesterday)
 
-def get_last_open_lottery(session) -> DateTime:
-    lottery = session.query(Lottery).order_by(desc(Lottery.closing_date)).first()
-    if lottery:
-        if lottery.winning_ballot_id is None:
-            return lottery.closing_date
+def get_last_open_lottery(session, minute: bool) -> DateTime:
+    """Get DateTime for the last open lottery. If minute flag set, get the one for the next minute"""
+    if minute:
+        current_time = datetime.now()
+        lottery = session.query(Lottery).filter(Lottery.closing_date>current_time).order_by(Lottery.closing_date).first()
+        if lottery:
+            if lottery.winning_ballot_id is None:
+                return lottery.closing_date
+            else:
+                logging.info(f"No open lotteries right now")
         else:
-            logging.info(f"No open lotteries right now")
+            logging.info(f"No open lottery right now")
+
     else:
-        logging.info(f"No open lottery right now")
+        lottery = session.query(Lottery).order_by(desc(Lottery.closing_date)).first()
+        if lottery:
+            if lottery.winning_ballot_id is None:
+                return lottery.closing_date
+            else:
+                logging.info(f"No open lotteries right now")
+        else:
+            logging.info(f"No open lottery right now")
 
 # SCHEDULING
 # ----------
@@ -186,6 +199,7 @@ def schedule_minute():
     every().minute.at(":00").do(do_every_minute)
 
 def run_scheduled_process(terminate_flag):
+    """Method in charge of running the scheduling thread"""
     while not terminate_flag.is_set():
         # schedule for every day at midnight
         run_pending()
@@ -206,6 +220,7 @@ def submit_past_ballot(session, user_id: int, lottery_id: int):
 
 
 def submit_random_ballots(session, lottery_date, num_random_ballots):
+    """Submit given number of random ballots to given lottery"""
     lottery = session.query(Lottery).filter(Lottery.closing_date == lottery_date).first()
     if lottery:
         count = session.execute(func.count(User.id)).scalar()

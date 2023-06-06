@@ -44,7 +44,7 @@ def main():
         print("Received termination signal. Terminating the program.")
         terminate_flag.set()  # Set the termination flag
         sys.exit(0)
-        
+
     # Register the termination signal handler
     signal.signal(signal.SIGINT, handle_termination)
     signal.signal(signal.SIGTERM, handle_termination)
@@ -52,7 +52,7 @@ def main():
     # THREADING
     terminate_flag = threading.Event()
     # Create and start the threads
-    interact_thread = threading.Thread(target=interact_user, args=(session, terminate_flag))
+    interact_thread = threading.Thread(target=interact_user, args=(session, terminate_flag, args.m,))
     scheduled_process_thread = threading.Thread(target=run_scheduled_process, args=(terminate_flag,))
 
     interact_thread.start()
