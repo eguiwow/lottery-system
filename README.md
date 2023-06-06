@@ -13,9 +13,10 @@ This is a simple lottery system written in Python that allows users to participa
 
 ## Features
 
-- Participants can buy lottery tickets.
-- Random selection of the winner.
+- Participants can get lottery tickets.
+- Random selection of the winner at midnight*.
 - Display of winners.
+- \**If the -m flag is set, the lottery event happens every minute.*
 
 ## Prerequisites
 
@@ -51,8 +52,9 @@ python main.py -p
 ```
 python main.py
 ```
-3. The system will wait until midnight (00:00) to close the current lottery and select a random winner.
-4. Consult the database file (```lottery.db```) with a .db analysing tool such as DB Browser.
+3. Run the script with ```-m``` to launch the lottery event every minute.
+4. The system will wait until midnight (00:00) to close the current lottery and select a random winner unless the ```-m``` flag is set. 
+5. Consult the database file (```lottery.db```) with a .db analysing tool such as DB Browser.
 
 ## Console Interaction
 
