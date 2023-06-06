@@ -8,6 +8,7 @@ This is a simple lottery system written in Python that allows users to participa
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Console Interaction](#console-interaction)
 - [Structure](#structure)
 
 ## Features
@@ -52,6 +53,42 @@ python main.py
 ```
 3. The system will wait until midnight (00:00) to close the current lottery and select a random winner.
 4. Consult the database file (```lottery.db```) with a .db analysing tool such as DB Browser.
+
+## Console Interaction
+
+The lottery system provides the following options for console interaction:
+
+1. Register in the system
+2. Log into the system
+3. Submit a ballot for a particular date
+4. Submit a ballot for the last open lottery
+5. Check the ballot of a particular date
+q. Exit
+
+### Option 1 - Register in the system
+
+This option allows users to register in the lottery system. Users can provide their details such as name, and password to create an account.
+
+### Option 2 - Login into the system
+
+Users who have already registered can use this option to log in to the lottery system. They will be prompted to enter their credentials, such as username and password, for authentication.
+
+### Option 3 - Submit a ballot for a particular date
+
+Users can choose this option to submit a ballot for a specific date. They will be prompted to enter their chosen date.
+
+### Option 4 - Submit a ballot for the last open lottery
+
+If there is an open lottery for participation, users can select this option to submit a ballot for the latest available lottery. This option saves users from manually specifying the date of the lottery draw.
+
+### Option 5 - Check the ballot of a particular date
+
+By selecting this option, users can check the results of the lottery draw for a specific date. They will be prompted to enter the date for which they want to view the ballot results.
+
+### Option q - Exit
+
+Users can choose this option to exit or quit the lottery system console interface.
+
 
 ## Structure
 
