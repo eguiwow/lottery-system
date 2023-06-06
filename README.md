@@ -53,6 +53,9 @@ python main.py -p
 python main.py
 ```
 3. Run the script with ```-m``` to launch the lottery event every minute.
+```
+python main.py -m
+```
 4. The system will wait until midnight (00:00) to close the current lottery and select a random winner unless the ```-m``` flag is set. 
 5. Consult the database file (```lottery.db```) with a .db analysing tool such as DB Browser.
 
