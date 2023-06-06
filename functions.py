@@ -1,10 +1,10 @@
 from datetime import datetime, timedelta
 from typing import List
-from sqlalchemy import DateTime, func, select
+from sqlalchemy import DateTime, func, select, desc
 from sqlalchemy.exc import IntegrityError
 from models import User, Lottery, Ballot
 import random as rand
-from schedule import every, repeat
+from schedule import every, repeat, run_pending
 import time
 from __init__ import session
 
@@ -12,7 +12,7 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
-def register_user(session, username: str, password: str):
+def register_user(session, username: str, password: str)-> bool:
     """Register a new user"""
     user = User(username=username, password=password)
     # Check if a user with the same name already exists
@@ -21,11 +21,24 @@ def register_user(session, username: str, password: str):
         session.add(user)
         session.commit()
         logging.debug("New user created successfully!")
+        return True
     except IntegrityError as e:
         session.rollback()
         logging.warning(f"{e.orig}: A user with the same name already exists!")
+        return False
 
-def create_lottery(session, name: str, closing_date: DateTime):
+def login_user(session, username: str, password: str)-> bool:
+    """Login new user"""
+    user = session.query(User).filter(User.username==username).first()
+    if user:
+        if user.password == password:
+            return True
+        else:
+            return False
+    else:
+        return False
+    
+def create_lottery(session, name: str, closing_date: DateTime)-> bool:
     """Create a new lottery"""
     lottery = Lottery(name=name, closing_date=closing_date)
     try:
@@ -33,9 +46,11 @@ def create_lottery(session, name: str, closing_date: DateTime):
         session.add(lottery)
         session.commit()
         logging.info("New lottery created successfully!")
+        return True
     except IntegrityError as e:
         session.rollback()
         logging.warning(f"{e.orig}: A lottery in the same date already exists!")
+        return False
 
 def submit_ballot_id(session, user_id: int, lottery_id: int):
     """Submit a ballot for a specific lottery and user providing both IDs"""
@@ -59,7 +74,7 @@ def submit_ballot_date(session, username: str, lottery_date: DateTime):
             if lottery.closing_date < datetime.now():
                 logging.info("This lottery has already closed.")
                 return
-            ballot = Ballot(user_id=user.user_id, lottery_id=lottery.id)
+            ballot = Ballot(user_id=user.id, lottery_id=lottery.id)
             session.add(ballot)
             session.commit()
             logging.info("Ballot submitted successfully.")
@@ -101,7 +116,7 @@ def check_winning_ballot_by_lottery_id(session, lottery_id: int):
         logging.info("No winning ballot found for this lottery.")
     else:
         winning_ballot = session.query(Ballot).get(lottery.winning_ballot_id)
-        logging.info(f"The winning ballot for this lottery is submitted by user: {winning_ballot.user.username}")
+        logging.info(f"The winning ballot for this lottery was submitted by user: {winning_ballot.user.username}")
 
 
 def check_winning_ballot_by_date(session, lottery_date: DateTime):
@@ -112,7 +127,7 @@ def check_winning_ballot_by_date(session, lottery_date: DateTime):
             logging.info("No winning ballot found for this lottery.")
         else:
             winning_ballot = session.query(Ballot).filter(Ballot.id==lottery.winning_ballot_id).first()
-            logging.info(f"The winning ballot for the {lottery_date} lottery is submitted by user: {winning_ballot.user.username}")
+            logging.info(f"The winning ballot for the {lottery_date} lottery was submitted by user: {winning_ballot.user.username}")
     else:
         logging.info(f"The consulted lottery for date {lottery_date} does not exist.")
 
@@ -132,7 +147,18 @@ def close_lottery_and_select_winner(session, closing_time: DateTime, minute: boo
             # Check the winner from yesterday
             check_winning_ballot_by_date(session, yesterday)
 
+def get_last_open_lottery(session) -> DateTime:
+    lottery = session.query(Lottery).order_by(desc(Lottery.closing_date)).first()
+    if lottery:
+        if lottery.winning_ballot_id is None:
+            return lottery.closing_date
+        else:
+            logging.info(f"No open lotteries right now")
+    else:
+        logging.info(f"No open lottery right now")
 
+# SCHEDULING
+# ----------
 # SCHEDULING for midnight closing of lottery 
 def do_at_midnight():
     """Schedule the next run of the lottery event at midnight"""
@@ -158,6 +184,12 @@ def schedule_midnight():
 
 def schedule_minute():
     every().minute.at(":00").do(do_every_minute)
+
+def run_scheduled_process(terminate_flag):
+    while not terminate_flag.is_set():
+        # schedule for every day at midnight
+        run_pending()
+        time.sleep(5)
 
 # DB populating related functions 
 # -------------------------------
@@ -227,5 +259,3 @@ def test_db():
     submit_ballot_id(1, 1)
     submit_ballot_id(2, 1)
     submit_ballot_id(1, 1)
-
-
