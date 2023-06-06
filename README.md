@@ -100,6 +100,7 @@ The repository contains the following files and directories:
 -   `__init__.py`: initializes the SQLAlchemy Session to interact with the database.
 -   `functions.py`: all the necessary functions to interact with the database and the system.
 -   `models.py`: ORM-like database schema.
+-   `console_interaction.py`: provides the console interaction logic.
 -   `README.md`: this file.
 
 Feel free to contact me for further requests and to adapt this README file to suit your project's specific needs.
