@@ -9,7 +9,7 @@ origin_date = datetime.strptime("2023-05-18", "%Y-%m-%d")
 
 def main():
  
-    # Populate database with -p parameter
+    # Populate database with -p flag
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', action='store_true', help='Populate the database')
     parser.add_argument('-m', action='store_true', help='Minute lottery mode')
@@ -42,4 +42,3 @@ def main():
 
 if __name__== "__main__":
     main()
-    

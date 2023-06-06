@@ -46,7 +46,7 @@ pip install -r requirements.txt
 ```
 python main.py -p
 ```
-2. Run the script without the ```-p``` parameter if you don't need to populate the database.
+2. Run the script without the ```-p``` flag if you don't need to populate the database.
 ```
 python main.py
 ```
