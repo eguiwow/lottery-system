@@ -62,7 +62,7 @@ The lottery system provides the following options for console interaction:
 2. Log into the system
 3. Submit a ballot for a particular date
 4. Submit a ballot for the last open lottery
-5. Check the ballot of a particular date
+5. Check the ballot of a particular date  
 q. Exit
 
 ### Option 1 - Register in the system
