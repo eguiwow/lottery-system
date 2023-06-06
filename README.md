@@ -74,7 +74,7 @@ q. Exit
 
 This option allows users to register in the lottery system. Users can provide their details such as name, and password to create an account.
 
-### Option 2 - Login into the system
+### Option 2 - Log into the system
 
 Users who have already registered can use this option to log in to the lottery system. They will be prompted to enter their credentials, such as username and password, for authentication.
 
